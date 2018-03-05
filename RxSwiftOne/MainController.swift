@@ -15,40 +15,56 @@ let Cell_Todo_title_tag = 1002
 
 class MainController: UIViewController {
     
-    var todoItems: [TodoItem] = []
+    var todoItems = Variable<[TodoItem]>([])
+    let bag = DisposeBag()
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var addTodo: UIBarButtonItem!
     @IBOutlet weak var clearTodoBtn: UIButton!
 
     
+    // storyboard
+    required init?(coder aDecoder: NSCoder)
+    {
+        super.init(coder: aDecoder)
+        
+        loadTodoItems()
+    }
+    
+    
     // viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadTodoItems()
+        todoItems.asObservable().subscribe(onNext: { [weak self] todos in
+            self?.updateUI(todos: todos)
+        }).disposed(by: bag)
+    }
+    
+    
+    // 更新UI
+    func updateUI(todos: [TodoItem])
+    {
+        clearTodoBtn.isEnabled = !todos.isEmpty
+        addTodo.isEnabled = todos.filter { !$0.isFinished }.count < 5
+        title = todos.isEmpty ? "Todo" : "\(todos.count) Todos"
+        
+        tableView.reloadData()
     }
     
     
     // 点击加号按钮
     @IBAction func addTodoItem(_ sender: Any)
     {
-        let newRowIndex = todoItems.count
-        
         let todoItem = TodoItem(name: "Todo Demo", isFinished: false)
-        todoItems.append(todoItem)
-        
-        let indexPath = IndexPath(row: newRowIndex, section: 0)
-        
-        tableView.insertRows(at: [indexPath], with: .automatic)
+        todoItems.value.append(todoItem)
     }
     
     
     // 点击删除按钮
     @IBAction func clearTodoList(_ sender: Any)
     {
-        todoItems = [TodoItem]()
-        tableView.reloadData()
+        todoItems.value.removeAll()
     }
     
     
@@ -71,7 +87,7 @@ extension MainController
         if let data = try? Data(contentsOf: path)
         {
             let unarchiver = NSKeyedUnarchiver(forReadingWith: data)
-            todoItems = unarchiver.decodeObject(forKey: "TodoItems") as! [TodoItem]
+            todoItems.value = unarchiver.decodeObject(forKey: "TodoItems") as! [TodoItem]
             
             unarchiver.finishDecoding()
         }
@@ -84,7 +100,7 @@ extension MainController
         let data = NSMutableData()
         let archiver = NSKeyedArchiver(forWritingWith: data)
 
-        archiver.encode(todoItems, forKey: "TodoItems")
+        archiver.encode(todoItems.value, forKey: "TodoItems")
         archiver.finishEncoding()
         
         data.write(to: dataFilePath(), atomically: true)
@@ -135,31 +151,30 @@ extension MainController: UITableViewDelegate
     {
         if let cell = tableView.cellForRow(at: indexPath)
         {
-            let todo = todoItems[indexPath.row]
-            
+            let todo = todoItems.value[indexPath.row]
             todo.toggleFinished()
+            
+            todoItems.value[indexPath.row] = todo
+            
             configureStatus(for: cell, with: todo)
         }
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
     {
-        todoItems.remove(at: indexPath.row)
-        
-        let indexPaths = [indexPath]
-        tableView.deleteRows(at: indexPaths, with: .automatic)
+        todoItems.value.remove(at: indexPath.row)
     }
 }
 extension MainController: UITableViewDataSource
 {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return todoItems.count;
+        return todoItems.value.count;
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoItem", for: indexPath)
         
-        let todo = todoItems[indexPath.row]
+        let todo = todoItems.value[indexPath.row]
         configureLabel(for: cell, with: todo)
         configureStatus(for: cell, with: todo)
         
