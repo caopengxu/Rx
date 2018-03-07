@@ -10,10 +10,13 @@
 		941AD91BDC2A920E55A1D271 /* Pods_RxSwiftOne.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4732045C0C887F371021BBD /* Pods_RxSwiftOne.framework */; };
 		BF5C322E204A77F5008C3BA6 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C322D204A77F5008C3BA6 /* MainController.swift */; };
 		BF5C3232204A7E90008C3BA6 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C3231204A7E90008C3BA6 /* TodoItem.swift */; };
+		BF9341DC204D18940052EDED /* TodoDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9341DB204D18940052EDED /* TodoDetailController.swift */; };
 		BFE1D22B2028021D00EC5E2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE1D22A2028021D00EC5E2A /* AppDelegate.swift */; };
 		BFE1D2302028021D00EC5E2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFE1D22E2028021D00EC5E2A /* Main.storyboard */; };
 		BFE1D2322028021D00EC5E2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFE1D2312028021D00EC5E2A /* Assets.xcassets */; };
 		BFE1D2352028021D00EC5E2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFE1D2332028021D00EC5E2A /* LaunchScreen.storyboard */; };
+		BFF62805204FD5C3008E8BA1 /* PlistDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF62804204FD5C3008E8BA1 /* PlistDocument.swift */; };
+		BFF62809204FD8CC008E8BA1 /* TodoListViewAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF62808204FD8CC008E8BA1 /* TodoListViewAlert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,12 +24,17 @@
 		2B94704160489520006B5AA0 /* Pods-RxSwiftOne.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftOne.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftOne/Pods-RxSwiftOne.release.xcconfig"; sourceTree = "<group>"; };
 		BF5C322D204A77F5008C3BA6 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		BF5C3231204A7E90008C3BA6 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
+		BF9341DB204D18940052EDED /* TodoDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailController.swift; sourceTree = "<group>"; };
+		BF9341E7204FC9D90052EDED /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		BFE1D2272028021D00EC5E2A /* RxSwiftOne.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxSwiftOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFE1D22A2028021D00EC5E2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFE1D22F2028021D00EC5E2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BFE1D2312028021D00EC5E2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BFE1D2342028021D00EC5E2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BFE1D2362028021D00EC5E2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BFF62803204FD2CD008E8BA1 /* RxSwiftOne.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RxSwiftOne.entitlements; sourceTree = "<group>"; };
+		BFF62804204FD5C3008E8BA1 /* PlistDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistDocument.swift; sourceTree = "<group>"; };
+		BFF62808204FD8CC008E8BA1 /* TodoListViewAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewAlert.swift; sourceTree = "<group>"; };
 		F4732045C0C887F371021BBD /* Pods_RxSwiftOne.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwiftOne.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -54,6 +62,7 @@
 		5C9A8621AD4D023E8BE22E9D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BF9341E7204FC9D90052EDED /* MobileCoreServices.framework */,
 				F4732045C0C887F371021BBD /* Pods_RxSwiftOne.framework */,
 			);
 			name = Frameworks;
@@ -62,6 +71,7 @@
 		BF5C322F204A7E68008C3BA6 /* code */ = {
 			isa = PBXGroup;
 			children = (
+				BFF62807204FD8B6008E8BA1 /* Helper */,
 				BF5C3230204A7E68008C3BA6 /* Model */,
 			);
 			path = code;
@@ -71,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				BF5C3231204A7E90008C3BA6 /* TodoItem.swift */,
+				BFF62804204FD5C3008E8BA1 /* PlistDocument.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -96,8 +107,10 @@
 		BFE1D2292028021D00EC5E2A /* RxSwiftOne */ = {
 			isa = PBXGroup;
 			children = (
+				BFF62803204FD2CD008E8BA1 /* RxSwiftOne.entitlements */,
 				BFE1D22A2028021D00EC5E2A /* AppDelegate.swift */,
 				BF5C322D204A77F5008C3BA6 /* MainController.swift */,
+				BF9341DB204D18940052EDED /* TodoDetailController.swift */,
 				BFE1D22E2028021D00EC5E2A /* Main.storyboard */,
 				BFE1D2312028021D00EC5E2A /* Assets.xcassets */,
 				BFE1D2332028021D00EC5E2A /* LaunchScreen.storyboard */,
@@ -105,6 +118,14 @@
 				BF5C322F204A7E68008C3BA6 /* code */,
 			);
 			path = RxSwiftOne;
+			sourceTree = "<group>";
+		};
+		BFF62807204FD8B6008E8BA1 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				BFF62808204FD8CC008E8BA1 /* TodoListViewAlert.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,6 +164,11 @@
 					BFE1D2262028021D00EC5E2A = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -240,6 +266,9 @@
 			files = (
 				BF5C322E204A77F5008C3BA6 /* MainController.swift in Sources */,
 				BF5C3232204A7E90008C3BA6 /* TodoItem.swift in Sources */,
+				BF9341DC204D18940052EDED /* TodoDetailController.swift in Sources */,
+				BFF62809204FD8CC008E8BA1 /* TodoListViewAlert.swift in Sources */,
+				BFF62805204FD5C3008E8BA1 /* PlistDocument.swift in Sources */,
 				BFE1D22B2028021D00EC5E2A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,12 +407,13 @@
 			baseConfigurationReference = 1CA3F54EE6CC0225E800D92F /* Pods-RxSwiftOne.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = RxSwiftOne/RxSwiftOne.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WGX7CRRVZ2;
+				DEVELOPMENT_TEAM = SCMWM8MCVT;
 				INFOPLIST_FILE = RxSwiftOne/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cpx.RxSwiftOne;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cpx.qewb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -395,12 +425,13 @@
 			baseConfigurationReference = 2B94704160489520006B5AA0 /* Pods-RxSwiftOne.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = RxSwiftOne/RxSwiftOne.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = WGX7CRRVZ2;
+				DEVELOPMENT_TEAM = SCMWM8MCVT;
 				INFOPLIST_FILE = RxSwiftOne/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = cpx.RxSwiftOne;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cpx.qewb;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

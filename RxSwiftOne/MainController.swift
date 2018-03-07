@@ -12,6 +12,13 @@ import RxSwift
 let Cell_CheckMark_Tag = 1001
 let Cell_Todo_title_tag = 1002
 
+enum SaveTodoError: Error {
+    case cannotSaveToLocalFile
+    case iCloudIsNotEnabled
+    case cannotReadLocalFile
+    case cannotCreateFileOnCloud
+}
+
 
 class MainController: UIViewController {
     
@@ -39,6 +46,47 @@ class MainController: UIViewController {
         todoItems.asObservable().subscribe(onNext: { [weak self] todos in
             self?.updateUI(todos: todos)
         }).disposed(by: bag)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        let naviController = segue.destination as! UINavigationController
+        let currController = naviController.topViewController as! TodoDetailController
+        
+        if segue.identifier == "AddTodo"
+        {
+            currController.title = "Add Todo"
+            
+            _ = currController.todo.subscribe(
+                onNext: {
+                    [weak self] newTodo in
+                    self?.todoItems.value.append(newTodo)
+                },
+                onDisposed: {
+                    print("Finish adding a new todo.")
+                }
+            )
+        }
+        else if segue.identifier == "EditTodo"
+        {
+            currController.title = "Edit Todo"
+            
+            if let indexPath = tableView.indexPath(for: sender as! UITableViewCell)
+            {
+                currController.todoItem = todoItems.value[indexPath.row]
+                
+                _ = currController.todo.subscribe(
+                    
+                    onNext: {
+                        [weak self] todo in
+                        self?.todoItems.value[indexPath.row] = todo
+                    },
+                    onDisposed: {
+                        print("Finish editing a new todo.")
+                }
+                )
+            }
+        }
     }
     
     
@@ -76,7 +124,7 @@ class MainController: UIViewController {
 }
 
 
-// MARK: === 方法
+// MARK: === 扩展方法
 extension MainController
 {
     // 创建plist
@@ -141,6 +189,50 @@ extension MainController
         let label = cell.viewWithTag(Cell_Todo_title_tag) as! UILabel
         label.text = item.name
     }
+    
+    // 把保存在本地的Todo同步到iCloud
+    func ubiquityURL(_ filename: String) -> URL?
+    {
+        let ubiquityURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)
+        
+        if ubiquityURL != nil
+        {
+            return ubiquityURL!.appendingPathComponent("filename")
+        }
+        
+        return nil
+    }
+    func syncTodoCloud()
+    {
+        guard let cloudUrl = ubiquityURL("Documents/TodoList.plist") else
+        {
+            self.flash(title: "Failed", message: "You should enabled iCloud in Settings first.")
+            
+            return
+        }
+        guard let localData = NSData(contentsOf: dataFilePath()) else
+        {
+            self.flash(title: "Failed", message: "Cannot read local file.")
+            
+            return
+        }
+        
+        let plist = PlistDocument(fileURL: cloudUrl, data: localData)
+        
+        plist.save(to: cloudUrl, for: .forOverwriting, completionHandler: {
+            (success: Bool) -> Void in
+            print(cloudUrl)
+            
+            if success
+            {
+                self.flash(title: "Success", message: "All todos are synced to cloud.")
+            }
+            else
+            {
+                self.flash(title: "Failed", message: "Sync todos to cloud failed")
+            }
+        })
+    }
 }
 
 
@@ -179,6 +271,10 @@ extension MainController: UITableViewDataSource
         configureStatus(for: cell, with: todo)
         
         return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 44;
     }
 }
 
