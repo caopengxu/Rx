@@ -116,6 +116,13 @@ class MainController: UIViewController {
     }
     
     
+    // 同步到cloud
+    @IBAction func syncCloud(_ sender: Any)
+    {
+        syncTodoToCloud()
+    }
+    
+    
     // 点击保存按钮
     @IBAction func saveTodoList(_ sender: Any)
     {
@@ -202,7 +209,7 @@ extension MainController
         
         return nil
     }
-    func syncTodoCloud()
+    func syncTodoToCloud()
     {
         guard let cloudUrl = ubiquityURL("Documents/TodoList.plist") else
         {

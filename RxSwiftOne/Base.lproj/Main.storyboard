@@ -89,11 +89,25 @@
                                             <action selector="saveTodoList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YWs-Hl-7Ei"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2nQ-V1-9xW">
+                                        <rect key="frame" x="155" y="18" width="64" height="64"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="64" id="43g-Og-VJ4"/>
+                                            <constraint firstAttribute="height" constant="64" id="4w5-zt-zZe"/>
+                                        </constraints>
+                                        <state key="normal" image="Sync"/>
+                                        <connections>
+                                            <action selector="clearTodoList:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6gC-sI-BcP"/>
+                                            <action selector="syncCloud:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EMo-uo-HXQ"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="2nQ-V1-9xW" firstAttribute="centerX" secondItem="0rz-hW-H7Y" secondAttribute="centerX" id="CnJ-Bw-0IM"/>
                                     <constraint firstItem="C9o-cC-V9A" firstAttribute="top" secondItem="0rz-hW-H7Y" secondAttribute="top" constant="18" id="G9K-AG-ayH"/>
                                     <constraint firstItem="C9o-cC-V9A" firstAttribute="leading" secondItem="0rz-hW-H7Y" secondAttribute="leading" constant="18" id="XOC-tA-Ygs"/>
+                                    <constraint firstItem="2nQ-V1-9xW" firstAttribute="top" secondItem="0rz-hW-H7Y" secondAttribute="top" constant="18" id="kEo-e5-41Z"/>
                                     <constraint firstItem="V8T-Lh-8bG" firstAttribute="top" secondItem="0rz-hW-H7Y" secondAttribute="top" constant="18" id="pyw-al-RyS"/>
                                     <constraint firstAttribute="height" constant="100" id="yT9-qu-VCc"/>
                                     <constraint firstAttribute="trailing" secondItem="V8T-Lh-8bG" secondAttribute="trailing" constant="18" id="zHt-40-rGh"/>
@@ -266,6 +280,7 @@
     <resources>
         <image name="Delete" width="64" height="64"/>
         <image name="Save" width="64" height="64"/>
+        <image name="Sync" width="64" height="64"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="eoJ-s6-pbP"/>
