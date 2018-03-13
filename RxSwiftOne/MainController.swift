@@ -119,14 +119,30 @@ class MainController: UIViewController {
     // 同步到cloud
     @IBAction func syncCloud(_ sender: Any)
     {
-        syncTodoToCloud()
+        _ = syncTodoToCloud().subscribe(
+            onNext: {
+                self.flash(title: "Success", message: "All todos are synced to: \($0)")
+            },
+            onError: {
+                self.flash(title: "Failed", message: "Sync failed due to: \($0.localizedDescription)")
+            },
+            onDisposed: { print("SyncOb disposed") }
+        )
     }
     
     
     // 点击保存按钮
     @IBAction func saveTodoList(_ sender: Any)
     {
-        saveTodoItems()
+        _ = saveTodoItems().subscribe(
+            onError: { [weak self] error in
+                self?.flash(title: "Error", message: error.localizedDescription)
+            },
+            onCompleted: { [weak self] in
+                self?.flash(title: "Success", message: "Success")
+            },
+            onDisposed: { print("SaveOb disposed") }
+        )
     }
 }
 
@@ -150,7 +166,7 @@ extension MainController
     
     
     // 保存
-    func saveTodoItems()
+    func saveTodoItems() -> Observable<Void>
     {
         let data = NSMutableData()
         let archiver = NSKeyedArchiver(forWritingWith: data)
@@ -158,7 +174,21 @@ extension MainController
         archiver.encode(todoItems.value, forKey: "TodoItems")
         archiver.finishEncoding()
         
-        data.write(to: dataFilePath(), atomically: true)
+        return Observable.create({ observer in
+            
+            let result = data.write(to: self.dataFilePath(), atomically: true)
+            
+            if !result
+            {
+                observer.onError(SaveTodoError.cannotSaveToLocalFile)
+            }
+            else
+            {
+                observer.onCompleted()
+            }
+            
+            return Disposables.create()
+        })
     }
     
     
@@ -198,47 +228,55 @@ extension MainController
     }
     
     // 把保存在本地的Todo同步到iCloud
+    func syncTodoToCloud() ->Observable<URL>
+    {
+        return Observable.create({ observer in
+            guard let cloudUrl = self.ubiquityURL("Documents/TodoList.plist") else
+            {
+                self.flash(title: "Failed", message: "You should enabled iCloud in Settings first.")
+                
+                observer.onError(SaveTodoError.iCloudIsNotEnabled)
+                return Disposables.create()
+            }
+            guard let localData = NSData(contentsOf: self.dataFilePath()) else
+            {
+                self.flash(title: "Failed", message: "Cannot read local file.")
+                
+                observer.onError(SaveTodoError.cannotReadLocalFile)
+                return Disposables.create()
+            }
+            
+            let plist = PlistDocument(fileURL: cloudUrl, data: localData)
+            
+            plist.save(to: cloudUrl, for: .forOverwriting, completionHandler: {
+                (success: Bool) -> Void in
+                
+                if success
+                {
+                    observer.onNext(cloudUrl)
+                    observer.onCompleted()
+                }
+                else
+                {
+                    observer.onError(SaveTodoError.cannotCreateFileOnCloud)
+                }
+            })
+            
+            return Disposables.create()
+        })
+    }
+    
+    // 获取URL路径
     func ubiquityURL(_ filename: String) -> URL?
     {
         let ubiquityURL = FileManager.default.url(forUbiquityContainerIdentifier: nil)
         
         if ubiquityURL != nil
         {
-            return ubiquityURL!.appendingPathComponent("filename")
+            return ubiquityURL!.appendingPathComponent("\(filename)")
         }
         
         return nil
-    }
-    func syncTodoToCloud()
-    {
-        guard let cloudUrl = ubiquityURL("Documents/TodoList.plist") else
-        {
-            self.flash(title: "Failed", message: "You should enabled iCloud in Settings first.")
-            
-            return
-        }
-        guard let localData = NSData(contentsOf: dataFilePath()) else
-        {
-            self.flash(title: "Failed", message: "Cannot read local file.")
-            
-            return
-        }
-        
-        let plist = PlistDocument(fileURL: cloudUrl, data: localData)
-        
-        plist.save(to: cloudUrl, for: .forOverwriting, completionHandler: {
-            (success: Bool) -> Void in
-            print(cloudUrl)
-            
-            if success
-            {
-                self.flash(title: "Success", message: "All todos are synced to cloud.")
-            }
-            else
-            {
-                self.flash(title: "Failed", message: "Sync todos to cloud failed")
-            }
-        })
     }
 }
 
