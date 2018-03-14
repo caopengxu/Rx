@@ -38,16 +38,7 @@ class MainController: UIViewController {
         loadTodoItems()
     }
     
-    
-    // viewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        todoItems.asObservable().subscribe(onNext: { [weak self] todos in
-            self?.updateUI(todos: todos)
-        }).disposed(by: bag)
-    }
-    
+    // prepare
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
         let naviController = segue.destination as! UINavigationController
@@ -64,7 +55,7 @@ class MainController: UIViewController {
                 },
                 onDisposed: {
                     print("Finish adding a new todo.")
-                }
+            }
             )
         }
         else if segue.identifier == "EditTodo"
@@ -89,6 +80,14 @@ class MainController: UIViewController {
         }
     }
     
+    // viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        todoItems.asObservable().subscribe(onNext: { [weak self] todos in
+            self?.updateUI(todos: todos)
+        }).disposed(by: bag)
+    }
     
     // 更新UI
     func updateUI(todos: [TodoItem])
@@ -100,21 +99,18 @@ class MainController: UIViewController {
         tableView.reloadData()
     }
     
-    
     // 点击加号按钮
     @IBAction func addTodoItem(_ sender: Any)
     {
-        let todoItem = TodoItem(name: "Todo Demo", isFinished: false)
+        let todoItem = TodoItem(name: "Todo Demo", isFinished: false, pictureMemoFilename: "")
         todoItems.value.append(todoItem)
     }
-    
     
     // 点击删除按钮
     @IBAction func clearTodoList(_ sender: Any)
     {
         todoItems.value.removeAll()
     }
-    
     
     // 同步到cloud
     @IBAction func syncCloud(_ sender: Any)
@@ -129,7 +125,6 @@ class MainController: UIViewController {
             onDisposed: { print("SyncOb disposed") }
         )
     }
-    
     
     // 点击保存按钮
     @IBAction func saveTodoList(_ sender: Any)

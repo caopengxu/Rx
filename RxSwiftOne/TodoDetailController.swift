@@ -15,13 +15,15 @@ class TodoDetailController: UITableViewController {
     var todo: Observable<TodoItem> {
         return todoSubject.asObservable()
     }
-    
     var todoItem: TodoItem!
+    fileprivate var todoCollage: UIImage?
+    fileprivate let images = Variable<[UIImage]>([])
+    var bag = DisposeBag()
     
-
     @IBOutlet weak var todoName: UITextField!
     @IBOutlet weak var isFinished: UISwitch!
     @IBOutlet weak var doneBarBtn: UIBarButtonItem!
+    @IBOutlet weak var memoCollageBtn: UIButton!
     
     
     // 界面显示前后
@@ -42,44 +44,144 @@ class TodoDetailController: UITableViewController {
         
         print("Resource tracing: \(RxSwift.Resources.total)")
     }
-    override func viewWillDisappear(_ animated: Bool)
-    {
-        super.viewWillDisappear(animated)
-        
-        todoSubject.onCompleted()
-    }
     
+    // prepare
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let photoCollectionController = segue.destination as! PhotoCollectionController
+        images.value.removeAll()
+        resetMemoBtn()
+        
+        let selectedPhotos = photoCollectionController.selectedPhotos
+        selectedPhotos.subscribe(
+            onNext: { image in
+                self.images.value.append(image)
+            },
+            onDisposed: { print("Finished choosing photo memos.") }
+        ).disposed(by: photoCollectionController.bag)
+    }
     
     // viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        todoName.becomeFirstResponder()
         
+        // 订阅自身的Variable
+        images.asObservable().subscribe(
+            onNext: {[weak self] images in
+                guard let `self` = self else {return}
+                guard !images.isEmpty else
+                {
+                    self.resetMemoBtn()
+                    return
+                }
+                
+                self.todoCollage = UIImage.collage(images: images, in: self.memoCollageBtn.frame.size)
+                self.setMemoBtn(bkImage: self.todoCollage ?? UIImage())
+            }
+        ).disposed(by: bag)
+        
+        // 根据模型设置界面
+        if let todoItem = todoItem
+        {
+            todoName.text = todoItem.name
+            isFinished.isOn = todoItem.isFinished
+            doneBarBtn.isEnabled = true
+            
+            if todoItem.pictureMemoFilename != ""
+            {
+                let url = getDocumentsDir().appendingPathComponent(todoItem.pictureMemoFilename)
+                
+                if let data = try? Data(contentsOf: url)
+                {
+                    self.memoCollageBtn.setBackgroundImage(UIImage(data: data), for: .normal)
+                    self.memoCollageBtn.setTitle("", for: .normal)
+                }
+            }
+        }
+        else
+        {
+            todoItem = TodoItem()
+        }
     }
     
-    
+    // 点击取消按钮
     @IBAction func cancel()
     {
         dismiss(animated: true, completion: nil)
     }
     
-
+    // 点击完成按钮
     @IBAction func done()
     {
         todoItem.name = todoName.text!
         todoItem.isFinished = isFinished.isOn
+        todoItem.pictureMemoFilename = savePictureMemos()
+        
         todoSubject.onNext(todoItem)
+        todoSubject.onCompleted()
         
         dismiss(animated: true, completion: nil)
     }
 }
 
 
+// MARK: === 对图片的处理
+extension TodoDetailController
+{
+    fileprivate func getDocumentsDir() -> URL
+    {
+        return FileManager.default.urls(
+            for: .documentDirectory,
+            in: .userDomainMask
+        )[0]
+    }
+    
+    fileprivate func resetMemoBtn()
+    {
+        memoCollageBtn.setBackgroundImage(nil, for: .normal)
+        memoCollageBtn.setTitle("Tap here to add your picture memos.", for: .normal)
+    }
+    
+    fileprivate func setMemoBtn(bkImage: UIImage)
+    {
+        memoCollageBtn.setBackgroundImage(bkImage, for: .normal)
+        memoCollageBtn.setTitle("", for: .normal)
+    }
+    
+    fileprivate func savePictureMemos() -> String
+    {
+        
+        if let todoCollage = self.todoCollage,
+            let data = UIImagePNGRepresentation(todoCollage)
+        {
+            let path = getDocumentsDir()
+            let filename = self.todoName.text! + UUID().uuidString + ".png"
+            let memoImageUrl = path.appendingPathComponent(filename)
+            
+            try? data.write(to: memoImageUrl)
+            
+            return filename
+        }
+        
+        return self.todoItem.pictureMemoFilename
+    }
+}
+
+
+// MARK: === tableView相关
 extension TodoDetailController
 {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 44;
+        if indexPath.section != 2
+        {
+            return 44
+        }
+        else
+        {
+            return 178
+        }
     }
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath?
     {
@@ -88,6 +190,7 @@ extension TodoDetailController
 }
 
 
+// MARK: === UITextFieldDelegate
 extension TodoDetailController: UITextFieldDelegate
 {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool

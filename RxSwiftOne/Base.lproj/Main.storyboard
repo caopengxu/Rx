@@ -248,6 +248,35 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection headerTitle="PICTURES MEMO" id="B30-gX-uQH">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="178" id="Hb3-mN-Ziz">
+                                        <rect key="frame" x="0.0" y="255.5" width="375" height="178"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hb3-mN-Ziz" id="U4D-1z-cjh">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="177.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dws-bd-TuU">
+                                                    <rect key="frame" x="8" y="7.5" width="359" height="161.5"/>
+                                                    <state key="normal" title="Tap here to add your picture memos">
+                                                        <color key="titleColor" red="0.40000000600000002" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    </state>
+                                                    <connections>
+                                                        <segue destination="QYN-tU-M3W" kind="show" id="OF3-5C-TNw"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="dws-bd-TuU" secondAttribute="trailing" constant="8" id="IHM-ep-luh"/>
+                                                <constraint firstItem="dws-bd-TuU" firstAttribute="leading" secondItem="U4D-1z-cjh" secondAttribute="leading" constant="8" id="U2j-cX-7uf"/>
+                                                <constraint firstItem="dws-bd-TuU" firstAttribute="top" secondItem="U4D-1z-cjh" secondAttribute="top" constant="8" id="V2Q-sg-7C2"/>
+                                                <constraint firstAttribute="bottom" secondItem="dws-bd-TuU" secondAttribute="bottom" constant="8" id="qfg-ev-dyV"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="6m3-S6-M3Z" id="egH-ra-Zyk"/>
@@ -269,6 +298,7 @@
                     <connections>
                         <outlet property="doneBarBtn" destination="raV-M8-yH1" id="TLr-1V-Zy3"/>
                         <outlet property="isFinished" destination="rFb-6m-4H2" id="wLK-G0-tz4"/>
+                        <outlet property="memoCollageBtn" destination="dws-bd-TuU" id="WQd-fs-Voh"/>
                         <outlet property="todoName" destination="FcK-sr-4IA" id="Qwm-Ba-6BX"/>
                     </connections>
                 </tableViewController>
@@ -276,11 +306,70 @@
             </objects>
             <point key="canvasLocation" x="1959" y="117"/>
         </scene>
+        <!--Photo Collection Controller-->
+        <scene sceneID="dk1-y1-MQY">
+            <objects>
+                <collectionViewController id="QYN-tU-M3W" customClass="PhotoCollectionController" customModule="RxSwiftOne" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="0vx-Z9-Ym1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="S7b-pz-hAO">
+                            <size key="itemSize" width="102" height="102"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoMemo" id="nAC-jz-B1P" customClass="PhotoCell" customModule="RxSwiftOne" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="102" height="102"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="102" height="102"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Uf-UP-QVJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="102" height="102"/>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check_selected" translatesAutoresizingMaskIntoConstraints="NO" id="ijz-gN-m1r">
+                                            <rect key="frame" x="64" y="64" width="32" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="TpI-cg-K9a"/>
+                                                <constraint firstAttribute="width" constant="32" id="t8x-Jn-gHz"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="1Uf-UP-QVJ" firstAttribute="top" secondItem="nAC-jz-B1P" secondAttribute="top" id="5Qv-D5-bef"/>
+                                    <constraint firstItem="1Uf-UP-QVJ" firstAttribute="leading" secondItem="nAC-jz-B1P" secondAttribute="leading" id="B46-ck-TCe"/>
+                                    <constraint firstAttribute="trailing" secondItem="1Uf-UP-QVJ" secondAttribute="trailing" id="EHA-pU-Adr"/>
+                                    <constraint firstAttribute="bottom" secondItem="1Uf-UP-QVJ" secondAttribute="bottom" id="gNS-97-mxr"/>
+                                    <constraint firstAttribute="bottom" secondItem="ijz-gN-m1r" secondAttribute="bottom" constant="6" id="ing-Je-sgQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="ijz-gN-m1r" secondAttribute="trailing" constant="6" id="io0-96-Cbn"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="checkMark" destination="ijz-gN-m1r" id="FtD-db-cOc"/>
+                                    <outlet property="imageView" destination="1Uf-UP-QVJ" id="4SN-1U-uNK"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="QYN-tU-M3W" id="xX4-Ee-ztL"/>
+                            <outlet property="delegate" destination="QYN-tU-M3W" id="BZm-cM-mzz"/>
+                        </connections>
+                    </collectionView>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oV1-yd-v87" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2701.5999999999999" y="116.49175412293854"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Delete" width="64" height="64"/>
         <image name="Save" width="64" height="64"/>
         <image name="Sync" width="64" height="64"/>
+        <image name="check_selected" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="eoJ-s6-pbP"/>

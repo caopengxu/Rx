@@ -17,6 +17,9 @@
 		BFE1D2352028021D00EC5E2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFE1D2332028021D00EC5E2A /* LaunchScreen.storyboard */; };
 		BFF62805204FD5C3008E8BA1 /* PlistDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF62804204FD5C3008E8BA1 /* PlistDocument.swift */; };
 		BFF62809204FD8CC008E8BA1 /* TodoListViewAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF62808204FD8CC008E8BA1 /* TodoListViewAlert.swift */; };
+		BFF628162057783A008E8BA1 /* PhotoCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF628152057783A008E8BA1 /* PhotoCollectionController.swift */; };
+		BFF6281820577887008E8BA1 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF6281720577886008E8BA1 /* PhotoCell.swift */; };
+		BFF6281A205778C7008E8BA1 /* UIImage+Collage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF62819205778C7008E8BA1 /* UIImage+Collage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +38,9 @@
 		BFF62803204FD2CD008E8BA1 /* RxSwiftOne.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RxSwiftOne.entitlements; sourceTree = "<group>"; };
 		BFF62804204FD5C3008E8BA1 /* PlistDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistDocument.swift; sourceTree = "<group>"; };
 		BFF62808204FD8CC008E8BA1 /* TodoListViewAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewAlert.swift; sourceTree = "<group>"; };
+		BFF628152057783A008E8BA1 /* PhotoCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionController.swift; sourceTree = "<group>"; };
+		BFF6281720577886008E8BA1 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		BFF62819205778C7008E8BA1 /* UIImage+Collage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Collage.swift"; sourceTree = "<group>"; };
 		F4732045C0C887F371021BBD /* Pods_RxSwiftOne.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxSwiftOne.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -111,8 +117,9 @@
 				BFE1D22A2028021D00EC5E2A /* AppDelegate.swift */,
 				BF5C322D204A77F5008C3BA6 /* MainController.swift */,
 				BF9341DB204D18940052EDED /* TodoDetailController.swift */,
-				BFE1D22E2028021D00EC5E2A /* Main.storyboard */,
+				BFF628152057783A008E8BA1 /* PhotoCollectionController.swift */,
 				BFE1D2312028021D00EC5E2A /* Assets.xcassets */,
+				BFE1D22E2028021D00EC5E2A /* Main.storyboard */,
 				BFE1D2332028021D00EC5E2A /* LaunchScreen.storyboard */,
 				BFE1D2362028021D00EC5E2A /* Info.plist */,
 				BF5C322F204A7E68008C3BA6 /* code */,
@@ -124,6 +131,8 @@
 			isa = PBXGroup;
 			children = (
 				BFF62808204FD8CC008E8BA1 /* TodoListViewAlert.swift */,
+				BFF6281720577886008E8BA1 /* PhotoCell.swift */,
+				BFF62819205778C7008E8BA1 /* UIImage+Collage.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -265,8 +274,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF5C322E204A77F5008C3BA6 /* MainController.swift in Sources */,
+				BFF628162057783A008E8BA1 /* PhotoCollectionController.swift in Sources */,
 				BF5C3232204A7E90008C3BA6 /* TodoItem.swift in Sources */,
 				BF9341DC204D18940052EDED /* TodoDetailController.swift in Sources */,
+				BFF6281A205778C7008E8BA1 /* UIImage+Collage.swift in Sources */,
+				BFF6281820577887008E8BA1 /* PhotoCell.swift in Sources */,
 				BFF62809204FD8CC008E8BA1 /* TodoListViewAlert.swift in Sources */,
 				BFF62805204FD5C3008E8BA1 /* PlistDocument.swift in Sources */,
 				BFE1D22B2028021D00EC5E2A /* AppDelegate.swift in Sources */,
