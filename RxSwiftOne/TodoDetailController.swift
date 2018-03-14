@@ -10,20 +10,21 @@ import UIKit
 import RxSwift
 
 class TodoDetailController: UITableViewController {
+    
+    @IBOutlet weak var todoName: UITextField!
+    @IBOutlet weak var isFinished: UISwitch!
+    @IBOutlet weak var doneBarBtn: UIBarButtonItem!
 
     fileprivate let todoSubject = PublishSubject<TodoItem>()
     var todo: Observable<TodoItem> {
         return todoSubject.asObservable()
     }
     var todoItem: TodoItem!
+    
     fileprivate var todoCollage: UIImage?
+    @IBOutlet weak var memoCollageBtn: UIButton!
     fileprivate let images = Variable<[UIImage]>([])
     var bag = DisposeBag()
-    
-    @IBOutlet weak var todoName: UITextField!
-    @IBOutlet weak var isFinished: UISwitch!
-    @IBOutlet weak var doneBarBtn: UIBarButtonItem!
-    @IBOutlet weak var memoCollageBtn: UIButton!
     
     
     // 界面显示前后
@@ -43,21 +44,6 @@ class TodoDetailController: UITableViewController {
         }
         
         print("Resource tracing: \(RxSwift.Resources.total)")
-    }
-    
-    // prepare
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let photoCollectionController = segue.destination as! PhotoCollectionController
-        images.value.removeAll()
-        resetMemoBtn()
-        
-        let selectedPhotos = photoCollectionController.selectedPhotos
-        selectedPhotos.subscribe(
-            onNext: { image in
-                self.images.value.append(image)
-            },
-            onDisposed: { print("Finished choosing photo memos.") }
-        ).disposed(by: photoCollectionController.bag)
     }
     
     // viewDidLoad
@@ -103,6 +89,39 @@ class TodoDetailController: UITableViewController {
         {
             todoItem = TodoItem()
         }
+    }
+    
+    // prepare
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let photoCollectionController = segue.destination as! PhotoCollectionController
+        images.value.removeAll()
+        resetMemoBtn()
+        
+        let selectedPhotos = photoCollectionController.selectedPhotos.share()
+        
+        selectedPhotos.scan([]){(photos: [UIImage], newPhoto: UIImage) in
+            
+            var newPhotos = photos
+            if let index = newPhotos.index(where: {UIImage.isEqual(lhs: newPhoto, rhs: $0)})
+            {
+                newPhotos.remove(at: index)
+            }
+            else
+            {
+                newPhotos.append(newPhoto)
+            }
+            
+            return newPhotos
+        }.subscribe(onNext: { images in
+                self.images.value = images
+        },onDisposed: {
+            print("Finished choosing photo memos.")
+        }).disposed(by: photoCollectionController.bag)
+        
+        
+        selectedPhotos.ignoreElements().subscribe({ image in
+            self.setMemoSectionHeaderText()
+        }).disposed(by: photoCollectionController.bag)
     }
     
     // 点击取消按钮
@@ -151,7 +170,6 @@ extension TodoDetailController
     
     fileprivate func savePictureMemos() -> String
     {
-        
         if let todoCollage = self.todoCollage,
             let data = UIImagePNGRepresentation(todoCollage)
         {
@@ -172,6 +190,14 @@ extension TodoDetailController
 // MARK: === tableView相关
 extension TodoDetailController
 {
+    func setMemoSectionHeaderText()
+    {
+        guard !images.value.isEmpty,
+            let headerView = self.tableView.headerView(forSection: 2) else {return}
+        
+        headerView.textLabel?.text = "\(images.value.count) MEMOS"
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         if indexPath.section != 2

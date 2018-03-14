@@ -38,6 +38,17 @@ class MainController: UIViewController {
         loadTodoItems()
     }
     
+    // viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        todoItems.asObservable().subscribe(
+            onNext: { [weak self] todos in
+                self?.updateUI(todos: todos)
+            }
+        ).disposed(by: bag)
+    }
+    
     // prepare
     override func prepare(for segue: UIStoryboardSegue, sender: Any?)
     {
@@ -78,15 +89,6 @@ class MainController: UIViewController {
                 )
             }
         }
-    }
-    
-    // viewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        todoItems.asObservable().subscribe(onNext: { [weak self] todos in
-            self?.updateUI(todos: todos)
-        }).disposed(by: bag)
     }
     
     // 更新UI
