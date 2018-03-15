@@ -8,23 +8,27 @@
 
 import UIKit
 
-extension MainController
+extension UIViewController
 {
-    func flash(title: String, message: String)
+    typealias AlertCallback = ((UIAlertAction) -> Void)
+    
+    func flash(title: String, message: String, callback: AlertCallback? = nil)
     {
-        let alerController = UIAlertController(
+        let alertController = UIAlertController(
             title: title,
             message: message,
             preferredStyle: UIAlertControllerStyle.alert
         )
+        
         let okAction = UIAlertAction(
             title: "OK",
-            style: UIAlertActionStyle.default
+            style: UIAlertActionStyle.default,
+            handler: callback
         )
         
-        alerController.addAction(okAction)
+        alertController.addAction(okAction)
         
-        self.present(alerController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 

@@ -41,6 +41,33 @@ class PhotoCollectionController: UICollectionViewController {
         
         // 设置collectionView的样式
         setCellSpace()
+        
+        // 相册授权
+        let isAuthorized = PHPhotoLibrary.isAuthorized.share()
+        
+        isAuthorized
+            .skipWhile {$0 == false}
+            .take(1)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                if let `self` = self
+                {
+                    self.photos = PhotoCollectionController.loadPhotos()
+                    self.collectionView?.reloadData()
+                }
+            }).disposed(by: bag)
+        
+        isAuthorized
+            .distinctUntilChanged()
+            .takeLast(1)
+            .filter(!)
+            .subscribe(onNext: { _ in
+                self.flash(title: "Cannot access your photo library",
+                           message: "You can authorize access from the Settings.",
+                           callback: { _ in
+                            self.navigationController?.popViewController(animated: true)
+                            })
+            }).disposed(by: bag)
     }
 }
 
