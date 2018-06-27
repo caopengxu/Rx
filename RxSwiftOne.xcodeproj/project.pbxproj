@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		941AD91BDC2A920E55A1D271 /* Pods_RxSwiftOne.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4732045C0C887F371021BBD /* Pods_RxSwiftOne.framework */; };
+		BF29A51420E382810070522E /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF29A51320E382810070522E /* TestController.swift */; };
 		BF2AD030205A4BBF002BF162 /* PHPhotoLibrary+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2AD02F205A4BBF002BF162 /* PHPhotoLibrary+Rx.swift */; };
 		BF5C322E204A77F5008C3BA6 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C322D204A77F5008C3BA6 /* MainController.swift */; };
 		BF5C3232204A7E90008C3BA6 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C3231204A7E90008C3BA6 /* TodoItem.swift */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		1CA3F54EE6CC0225E800D92F /* Pods-RxSwiftOne.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftOne.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftOne/Pods-RxSwiftOne.debug.xcconfig"; sourceTree = "<group>"; };
 		2B94704160489520006B5AA0 /* Pods-RxSwiftOne.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwiftOne.release.xcconfig"; path = "Pods/Target Support Files/Pods-RxSwiftOne/Pods-RxSwiftOne.release.xcconfig"; sourceTree = "<group>"; };
+		BF29A51320E382810070522E /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
 		BF2AD02F205A4BBF002BF162 /* PHPhotoLibrary+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHPhotoLibrary+Rx.swift"; sourceTree = "<group>"; };
 		BF5C322D204A77F5008C3BA6 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		BF5C3231204A7E90008C3BA6 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			children = (
 				BFF62803204FD2CD008E8BA1 /* RxSwiftOne.entitlements */,
 				BFE1D22A2028021D00EC5E2A /* AppDelegate.swift */,
+				BF29A51320E382810070522E /* TestController.swift */,
 				BF5C322D204A77F5008C3BA6 /* MainController.swift */,
 				BF9341DB204D18940052EDED /* TodoDetailController.swift */,
 				BFF628152057783A008E8BA1 /* PhotoCollectionController.swift */,
@@ -279,6 +282,7 @@
 				BF2AD030205A4BBF002BF162 /* PHPhotoLibrary+Rx.swift in Sources */,
 				BF5C322E204A77F5008C3BA6 /* MainController.swift in Sources */,
 				BFF628162057783A008E8BA1 /* PhotoCollectionController.swift in Sources */,
+				BF29A51420E382810070522E /* TestController.swift in Sources */,
 				BF5C3232204A7E90008C3BA6 /* TodoItem.swift in Sources */,
 				BF9341DC204D18940052EDED /* TodoDetailController.swift in Sources */,
 				BFF6281A205778C7008E8BA1 /* UIImage+Collage.swift in Sources */,
